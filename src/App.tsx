@@ -1,18 +1,14 @@
-import { useCallback, useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import { CountButton } from './components/CountButton'
+import { useContext } from "react";
+import reactLogo from "./assets/react.svg";
+import viteLogo from "/vite.svg";
+import "./App.css";
+import { CountButton } from "./components/CountButton";
+import { ThemeContext } from "./context/ThemeContext";
 
 function App() {
-  const [isChecked, setIsChecked] = useState(false);
+  const { currentTheme } = useContext(ThemeContext);
 
-  // この関数は再レンダリングの時に再作成されるため、
-  // CountButton の props が変化して、 CountButton が再レンダリングされる
-  // --> useCallback で再レンダリングされても無視することで回避できる
-  const handleSubmit = useCallback(() => {
-    console.log('Submit!!!!!');
-  }, [])
+  console.log({ currentTheme });
 
   return (
     <>
@@ -25,22 +21,26 @@ function App() {
         </a>
       </div>
       <h1>Vite + React</h1>
-      <div className="card">
-        <CountButton handleClick={handleSubmit}/>
-        <p>
-          Status: {isChecked ? 'Checked!!!' : '...'}
-        </p>
+      <CountButton />
+      {/* <div className="card">
+        <CountButton handleClick={handleSubmit} />
+        <p>Status: {isChecked ? "Checked!!!" : "..."}</p>
         <div>
           <label>
-            <input type="checkbox" onChange={() => setIsChecked((prev) => !prev)}/> Dark Mode
+            <input
+              type="checkbox"
+              onChange={() => setIsChecked((prev) => !prev)}
+            />{" "}
+            Dark Mode
           </label>
         </div>
-      </div>
+      </div> */}
+      <p>Theme: {currentTheme}</p>
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

@@ -1,26 +1,23 @@
-import { memo, useState } from "react";
+import { memo, useContext } from "react";
+import { THEME_DATA, ThemeContext } from "../context/ThemeContext";
 
-export const CountButton = memo(function CountButton(
-  { handleClick }: { handleClick: () => void }
-) {
-  const [count, setCount] = useState(0)
+export const CountButton = memo(function CountButton() {
+  const { currentTheme, changeTheme } = useContext(ThemeContext);
 
-  const handleCount = () => {
-    setCount((count) => count + 1);
-  }
+  const handleButtonClick = () => {
+    const newTheme =
+      currentTheme === THEME_DATA.LIGHT ? THEME_DATA.DARK : THEME_DATA.LIGHT;
 
-  console.log('[ARTIFICIALLY SLOW] Rendering <CountButton />');
-  const startTime = performance.now();
-  while (performance.now() - startTime < 500) {
-    // Do nothing for 500 ms to emulate extremely slow code
-  }
+    changeTheme(newTheme);
+  };
 
   return (
     <div>
-      <button onClick={handleCount}>
-        count is {count}
-      </button>
-      <button type="button" onClick={handleClick}>関数実行</button>
+      <div style={{ marginBottom: 20 }}>
+        <button type="button" onClick={handleButtonClick}>
+          テーマ変更
+        </button>
+      </div>
     </div>
-  )
-})
+  );
+});
