@@ -1,19 +1,22 @@
-import { useCallback, useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import { CountButton } from './components/CountButton'
+import reactLogo from "./assets/react.svg";
+import viteLogo from "/vite.svg";
+import "./App.css";
+import { useOnlineStatus } from "./hooks/useOnlineStatus";
+
+function StatusBar() {
+  const { isOnline, toggleStatus } = useOnlineStatus();
+
+  return (
+    <>
+      <h1>{isOnline ? "✅ Online" : "❌ Disconnected"}</h1>{" "}
+      <div>
+        <button onClick={toggleStatus}>ステータス変更</button>
+      </div>
+    </>
+  );
+}
 
 function App() {
-  const [isChecked, setIsChecked] = useState(false);
-
-  // この関数は再レンダリングの時に再作成されるため、
-  // CountButton の props が変化して、 CountButton が再レンダリングされる
-  // --> useCallback で再レンダリングされても無視することで回避できる
-  const handleSubmit = useCallback(() => {
-    console.log('Submit!!!!!');
-  }, [])
-
   return (
     <>
       <div>
@@ -26,21 +29,13 @@ function App() {
       </div>
       <h1>Vite + React</h1>
       <div className="card">
-        <CountButton handleClick={handleSubmit}/>
-        <p>
-          Status: {isChecked ? 'Checked!!!' : '...'}
-        </p>
-        <div>
-          <label>
-            <input type="checkbox" onChange={() => setIsChecked((prev) => !prev)}/> Dark Mode
-          </label>
-        </div>
+        <StatusBar />
       </div>
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
