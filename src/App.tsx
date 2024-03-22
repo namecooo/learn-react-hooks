@@ -3,6 +3,7 @@ import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
 import { SearchResults } from "./components/SearchResults";
+import { SlowList } from "./components/SlowList";
 
 function App() {
   const [query, setQuery] = useState<string>("");
@@ -34,9 +35,10 @@ function App() {
           Search albums:
           <input value={query} onChange={(e) => setQuery(e.target.value)} />
         </label>
-        <Suspense fallback={<h2>Loading...</h2>}>
+        {/* <Suspense fallback={<h2>Loading...</h2>}>
           <SearchResults query={deferredValue} />
-        </Suspense>
+        </Suspense> */}
+        <SlowList text={deferredValue} />
       </div>
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
