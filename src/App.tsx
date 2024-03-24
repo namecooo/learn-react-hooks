@@ -1,18 +1,21 @@
-import { useCallback, useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import { CountButton } from './components/CountButton'
+import reactLogo from "./assets/react.svg";
+import viteLogo from "/vite.svg";
+import "./App.css";
+import { NgFameForm } from "./components/NgNameForm";
+import { NameForm } from "./components/NameForm";
+import { NgTodoList } from "./components/NgTodoList";
+import { useDeferredValue, useState } from "react";
+
+let todoList = [
+  "TodoTodoTodoTodoTodoTodoTodoTodoTodo",
+  "TodoTodoTodoTodo",
+  "TodoTodo",
+  "TodoTodoTodoTodoTodoTodoTodoTodoTodoTodoTodoTodoTodoTodo",
+];
 
 function App() {
-  const [isChecked, setIsChecked] = useState(false);
-
-  // この関数は再レンダリングの時に再作成されるため、
-  // CountButton の props が変化して、 CountButton が再レンダリングされる
-  // --> useCallback で再レンダリングされても無視することで回避できる
-  const handleSubmit = useCallback(() => {
-    console.log('Submit!!!!!');
-  }, [])
+  const [limit, setLimit] = useState(10);
+  const defeeredLimit = useDeferredValue(limit);
 
   return (
     <>
@@ -26,21 +29,19 @@ function App() {
       </div>
       <h1>Vite + React</h1>
       <div className="card">
-        <CountButton handleClick={handleSubmit}/>
-        <p>
-          Status: {isChecked ? 'Checked!!!' : '...'}
-        </p>
-        <div>
-          <label>
-            <input type="checkbox" onChange={() => setIsChecked((prev) => !prev)}/> Dark Mode
-          </label>
-        </div>
+        {/* <NgFameForm /> */}
+        <NameForm />
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <div className="card">
+        <input
+          type="number"
+          onChange={(e) => setLimit(Number(e.target.value))}
+          value={defeeredLimit}
+        />
+        <NgTodoList todo={todoList} limit={limit} />
+      </div>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
